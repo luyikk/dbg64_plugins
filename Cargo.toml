@@ -1,16 +1,15 @@
 [package]
 name = "dbg64_plugins"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 build="build.rs"
 
+[lib]
+crate-type=["rlib"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 
 [build-dependencies]
-autocxx-bindgen = "0.59.13"
+bindgen = "0.59.2"
 
-[profile.release]
-lto = "fat"
-codegen-units = 1
