@@ -2,219 +2,194 @@ use std::env;
 use std::path::PathBuf;
 
 fn main() {
-
     #[cfg(not(target_os = "windows"))]
     panic!("only windows system build");
 
     let out_path = PathBuf::from(env::var("OUT_DIR").unwrap());
 
-    #[cfg(target_arch="x86_64")]
+    #[cfg(all(feature = "x64",not(feature = "x86")))]
     {
         std::fs::copy("pluginsdk/x64bridge.lib", out_path.join("x64bridge.lib")).unwrap();
         std::fs::copy("pluginsdk/x64dbg.lib", out_path.join("x64dbg.lib")).unwrap();
         println!("cargo:rustc-link-lib=x64bridge");
         println!("cargo:rustc-link-lib=x64dbg");
+
+        if PathBuf::from("pluginsdk/capstone/capstone_x64.lib").exists() {
+            let out = out_path.join("capstone");
+            if out.exists() {
+                let _ = std::fs::remove_dir_all(&out);
+            }
+            std::fs::create_dir(&out).unwrap();
+            std::fs::copy(
+                "pluginsdk/capstone/capstone_x64.lib",
+                out.join("capstone_x64.lib"),
+            )
+            .unwrap();
+            println!("cargo:rustc-link-lib=capstone/capstone_x64");
+        }
+
+        if PathBuf::from("pluginsdk/DeviceNameResolver/DeviceNameResolver_x64.lib").exists() {
+            let out = out_path.join("DeviceNameResolver");
+            if out.exists() {
+                let _ = std::fs::remove_dir_all(&out);
+            }
+            std::fs::create_dir(&out).unwrap();
+            std::fs::copy(
+                "pluginsdk/DeviceNameResolver/DeviceNameResolver_x64.lib",
+                out.join("DeviceNameResolver_x64.lib"),
+            )
+            .unwrap();
+            println!("cargo:rustc-link-lib=DeviceNameResolver/DeviceNameResolver_x64");
+        }
+        if PathBuf::from("pluginsdk/jansson/jansson_x64.lib").exists() {
+            let out = out_path.join("jansson");
+            if out.exists() {
+                let _ = std::fs::remove_dir_all(&out);
+            }
+            std::fs::create_dir(&out).unwrap();
+            std::fs::copy(
+                "pluginsdk/jansson/jansson_x64.lib",
+                out.join("jansson_x64.lib"),
+            )
+            .unwrap();
+            println!("cargo:rustc-link-lib=jansson/jansson_x64");
+        }
+        if PathBuf::from("pluginsdk/lz4/lz4_x64.lib").exists() {
+            let out = out_path.join("lz4");
+            if out.exists() {
+                let _ = std::fs::remove_dir_all(&out);
+            }
+            std::fs::create_dir(&out).unwrap();
+            std::fs::copy("pluginsdk/lz4/lz4_x64.lib", out.join("lz4_x64.lib")).unwrap();
+            println!("cargo:rustc-link-lib=lz4/lz4_x64");
+        }
+        if PathBuf::from("pluginsdk/TitanEngine/TitanEngine_x64.lib").exists() {
+            let out = out_path.join("TitanEngine");
+            if out.exists() {
+                let _ = std::fs::remove_dir_all(&out);
+            }
+            std::fs::create_dir(&out).unwrap();
+            std::fs::copy(
+                "pluginsdk/TitanEngine/TitanEngine_x64.lib",
+                out.join("TitanEngine_x64.lib"),
+            )
+            .unwrap();
+            println!("cargo:rustc-link-lib=TitanEngine/TitanEngine_x64");
+        }
+        if PathBuf::from("pluginsdk/XEDParse/XEDParse_x64.lib").exists() {
+            let out = out_path.join("XEDParse");
+            if out.exists() {
+                let _ = std::fs::remove_dir_all(&out);
+            }
+            std::fs::create_dir(&out).unwrap();
+            std::fs::copy(
+                "pluginsdk/XEDParse/XEDParse_x64.lib",
+                out.join("XEDParse_x64.lib"),
+            )
+            .unwrap();
+            println!("cargo:rustc-link-lib=XEDParse/XEDParse_x64");
+        }
+        if PathBuf::from("pluginsdk/yara/yara_x64.lib").exists() {
+            let out = out_path.join("yara");
+            if out.exists() {
+                let _ = std::fs::remove_dir_all(&out);
+            }
+            std::fs::create_dir(&out).unwrap();
+            std::fs::copy("pluginsdk/yara/yara_x64.lib", out.join("yara_x64.lib")).unwrap();
+            println!("cargo:rustc-link-lib=yara/yara_x64");
+        }
     }
-    #[cfg(target_arch="x86")]
+    #[cfg(all(feature = "x64",feature = "x86"))]
     {
-         std::fs::copy("pluginsdk/x32bridge.lib", out_path.join("x32bridge.lib")).unwrap();
-         std::fs::copy("pluginsdk/x32dbg.lib", out_path.join("x32dbg.lib")).unwrap();
-         println!("cargo:rustc-link-lib=x32bridge");
-         println!("cargo:rustc-link-lib=x32dbg");
-    }
+        std::fs::copy("pluginsdk/x32bridge.lib", out_path.join("x32bridge.lib")).unwrap();
+        std::fs::copy("pluginsdk/x32dbg.lib", out_path.join("x32dbg.lib")).unwrap();
+        println!("cargo:rustc-link-lib=x32bridge");
+        println!("cargo:rustc-link-lib=x32dbg");
 
-    #[cfg(target_arch="x86_64")]
-    if PathBuf::from("pluginsdk/capstone/capstone_x64.lib").exists() {
-        let out = out_path.join("capstone");
-        if out.exists() {
-            let _ = std::fs::remove_dir_all(&out);
-        }
-        std::fs::create_dir(&out).unwrap();
-        std::fs::copy(
-            "pluginsdk/capstone/capstone_x64.lib",
-            out.join("capstone_x64.lib"),
-        )
-        .unwrap();
-        println!("cargo:rustc-link-lib=capstone/capstone_x64");
-    }
-
-    #[cfg(target_arch="x86")]
-    if PathBuf::from("pluginsdk/capstone/capstone_x86.lib").exists() {
-        let out = out_path.join("capstone");
-        if out.exists() {
-            let _ = std::fs::remove_dir_all(&out);
-        }
-        std::fs::create_dir(&out).unwrap();
-        std::fs::copy(
-            "pluginsdk/capstone/capstone_x86.lib",
-            out.join("capstone_x86.lib"),
-        )
+        if PathBuf::from("pluginsdk/capstone/capstone_x86.lib").exists() {
+            let out = out_path.join("capstone");
+            if out.exists() {
+                let _ = std::fs::remove_dir_all(&out);
+            }
+            std::fs::create_dir(&out).unwrap();
+            std::fs::copy(
+                "pluginsdk/capstone/capstone_x86.lib",
+                out.join("capstone_x86.lib"),
+            )
             .unwrap();
-        println!("cargo:rustc-link-lib=capstone/capstone_x86");
-    }
-
-    #[cfg(target_arch="x86_64")]
-    if PathBuf::from("pluginsdk/DeviceNameResolver/DeviceNameResolver_x64.lib").exists() {
-        let out = out_path.join("DeviceNameResolver");
-        if out.exists() {
-            let _ = std::fs::remove_dir_all(&out);
+            println!("cargo:rustc-link-lib=capstone/capstone_x86");
         }
-        std::fs::create_dir(&out).unwrap();
-        std::fs::copy(
-            "pluginsdk/DeviceNameResolver/DeviceNameResolver_x64.lib",
-            out.join("DeviceNameResolver_x64.lib"),
-        )
-        .unwrap();
-        println!("cargo:rustc-link-lib=DeviceNameResolver/DeviceNameResolver_x64");
-    }
 
-    #[cfg(target_arch="x86")]
-    if PathBuf::from("pluginsdk/DeviceNameResolver/DeviceNameResolver_x86.lib").exists() {
-        let out = out_path.join("DeviceNameResolver");
-        if out.exists() {
-            let _ = std::fs::remove_dir_all(&out);
-        }
-        std::fs::create_dir(&out).unwrap();
-        std::fs::copy(
-            "pluginsdk/DeviceNameResolver/DeviceNameResolver_x86.lib",
-            out.join("DeviceNameResolver_x86.lib"),
-        )
+        if PathBuf::from("pluginsdk/DeviceNameResolver/DeviceNameResolver_x86.lib").exists() {
+            let out = out_path.join("DeviceNameResolver");
+            if out.exists() {
+                let _ = std::fs::remove_dir_all(&out);
+            }
+            std::fs::create_dir(&out).unwrap();
+            std::fs::copy(
+                "pluginsdk/DeviceNameResolver/DeviceNameResolver_x86.lib",
+                out.join("DeviceNameResolver_x86.lib"),
+            )
             .unwrap();
-        println!("cargo:rustc-link-lib=DeviceNameResolver/DeviceNameResolver_x86");
-    }
-
-    #[cfg(target_arch="x86_64")]
-    if PathBuf::from("pluginsdk/jansson/jansson_x64.lib").exists() {
-        let out = out_path.join("jansson");
-        if out.exists() {
-            let _ = std::fs::remove_dir_all(&out);
+            println!("cargo:rustc-link-lib=DeviceNameResolver/DeviceNameResolver_x86");
         }
-        std::fs::create_dir(&out).unwrap();
-        std::fs::copy(
-            "pluginsdk/jansson/jansson_x64.lib",
-            out.join("jansson_x64.lib"),
-        )
-        .unwrap();
-        println!("cargo:rustc-link-lib=jansson/jansson_x64");
-    }
-
-    #[cfg(target_arch="x86")]
-    if PathBuf::from("pluginsdk/jansson/jansson_x86.lib").exists() {
-        let out = out_path.join("jansson");
-        if out.exists() {
-            let _ = std::fs::remove_dir_all(&out);
-        }
-        std::fs::create_dir(&out).unwrap();
-        std::fs::copy(
-            "pluginsdk/jansson/jansson_x86.lib",
-            out.join("jansson_x86.lib"),
-        )
+        if PathBuf::from("pluginsdk/jansson/jansson_x86.lib").exists() {
+            let out = out_path.join("jansson");
+            if out.exists() {
+                let _ = std::fs::remove_dir_all(&out);
+            }
+            std::fs::create_dir(&out).unwrap();
+            std::fs::copy(
+                "pluginsdk/jansson/jansson_x86.lib",
+                out.join("jansson_x86.lib"),
+            )
             .unwrap();
-        println!("cargo:rustc-link-lib=jansson/jansson_x86");
-    }
-
-    #[cfg(target_arch="x86_64")]
-    if PathBuf::from("pluginsdk/lz4/lz4_x64.lib").exists() {
-        let out = out_path.join("lz4");
-        if out.exists() {
-            let _ = std::fs::remove_dir_all(&out);
+            println!("cargo:rustc-link-lib=jansson/jansson_x86");
         }
-        std::fs::create_dir(&out).unwrap();
-        std::fs::copy("pluginsdk/lz4/lz4_x64.lib", out.join("lz4_x64.lib")).unwrap();
-        println!("cargo:rustc-link-lib=lz4/lz4_x64");
-    }
-
-    #[cfg(target_arch="x86")]
-    if PathBuf::from("pluginsdk/lz4/lz4_x86.lib").exists() {
-        let out = out_path.join("lz4");
-        if out.exists() {
-            let _ = std::fs::remove_dir_all(&out);
+        if PathBuf::from("pluginsdk/lz4/lz4_x86.lib").exists() {
+            let out = out_path.join("lz4");
+            if out.exists() {
+                let _ = std::fs::remove_dir_all(&out);
+            }
+            std::fs::create_dir(&out).unwrap();
+            std::fs::copy("pluginsdk/lz4/lz4_x86.lib", out.join("lz4_x86.lib")).unwrap();
+            println!("cargo:rustc-link-lib=lz4/lz4_x86");
         }
-        std::fs::create_dir(&out).unwrap();
-        std::fs::copy("pluginsdk/lz4/lz4_x86.lib", out.join("lz4_x86.lib")).unwrap();
-        println!("cargo:rustc-link-lib=lz4/lz4_x86");
-    }
-
-    #[cfg(target_arch="x86_64")]
-    if PathBuf::from("pluginsdk/TitanEngine/TitanEngine_x64.lib").exists() {
-        let out = out_path.join("TitanEngine");
-        if out.exists() {
-            let _ = std::fs::remove_dir_all(&out);
-        }
-        std::fs::create_dir(&out).unwrap();
-        std::fs::copy(
-            "pluginsdk/TitanEngine/TitanEngine_x64.lib",
-            out.join("TitanEngine_x64.lib"),
-        )
-        .unwrap();
-        println!("cargo:rustc-link-lib=TitanEngine/TitanEngine_x64");
-    }
-
-    #[cfg(target_arch="x86")]
-    if PathBuf::from("pluginsdk/TitanEngine/TitanEngine_x86.lib").exists() {
-        let out = out_path.join("TitanEngine");
-        if out.exists() {
-            let _ = std::fs::remove_dir_all(&out);
-        }
-        std::fs::create_dir(&out).unwrap();
-        std::fs::copy(
-            "pluginsdk/TitanEngine/TitanEngine_x86.lib",
-            out.join("TitanEngine_x86.lib"),
-        )
+        if PathBuf::from("pluginsdk/TitanEngine/TitanEngine_x86.lib").exists() {
+            let out = out_path.join("TitanEngine");
+            if out.exists() {
+                let _ = std::fs::remove_dir_all(&out);
+            }
+            std::fs::create_dir(&out).unwrap();
+            std::fs::copy(
+                "pluginsdk/TitanEngine/TitanEngine_x86.lib",
+                out.join("TitanEngine_x86.lib"),
+            )
             .unwrap();
-        println!("cargo:rustc-link-lib=TitanEngine/TitanEngine_x86");
-    }
-
-    #[cfg(target_arch="x86_64")]
-    if PathBuf::from("pluginsdk/XEDParse/XEDParse_x64.lib").exists() {
-        let out = out_path.join("XEDParse");
-        if out.exists() {
-            let _ = std::fs::remove_dir_all(&out);
+            println!("cargo:rustc-link-lib=TitanEngine/TitanEngine_x86");
         }
-        std::fs::create_dir(&out).unwrap();
-        std::fs::copy(
-            "pluginsdk/XEDParse/XEDParse_x64.lib",
-            out.join("XEDParse_x64.lib"),
-        )
-        .unwrap();
-        println!("cargo:rustc-link-lib=XEDParse/XEDParse_x64");
-    }
-
-    #[cfg(target_arch="x86")]
-    if PathBuf::from("pluginsdk/XEDParse/XEDParse_x86.lib").exists() {
-        let out = out_path.join("XEDParse");
-        if out.exists() {
-            let _ = std::fs::remove_dir_all(&out);
-        }
-        std::fs::create_dir(&out).unwrap();
-        std::fs::copy(
-            "pluginsdk/XEDParse/XEDParse_x86.lib",
-            out.join("XEDParse_x86.lib"),
-        )
+        if PathBuf::from("pluginsdk/XEDParse/XEDParse_x86.lib").exists() {
+            let out = out_path.join("XEDParse");
+            if out.exists() {
+                let _ = std::fs::remove_dir_all(&out);
+            }
+            std::fs::create_dir(&out).unwrap();
+            std::fs::copy(
+                "pluginsdk/XEDParse/XEDParse_x86.lib",
+                out.join("XEDParse_x86.lib"),
+            )
             .unwrap();
-        println!("cargo:rustc-link-lib=XEDParse/XEDParse_x86");
-    }
-
-    #[cfg(target_arch="x86_64")]
-    if PathBuf::from("pluginsdk/yara/yara_x64.lib").exists() {
-        let out = out_path.join("yara");
-        if out.exists() {
-            let _ = std::fs::remove_dir_all(&out);
+            println!("cargo:rustc-link-lib=XEDParse/XEDParse_x86");
         }
-        std::fs::create_dir(&out).unwrap();
-        std::fs::copy("pluginsdk/yara/yara_x64.lib", out.join("yara_x64.lib")).unwrap();
-        println!("cargo:rustc-link-lib=yara/yara_x64");
-    }
-
-    #[cfg(target_arch="x86")]
-    if PathBuf::from("pluginsdk/yara/yara_x86.lib").exists() {
-        let out = out_path.join("yara");
-        if out.exists() {
-            let _ = std::fs::remove_dir_all(&out);
+        if PathBuf::from("pluginsdk/yara/yara_x86.lib").exists() {
+            let out = out_path.join("yara");
+            if out.exists() {
+                let _ = std::fs::remove_dir_all(&out);
+            }
+            std::fs::create_dir(&out).unwrap();
+            std::fs::copy("pluginsdk/yara/yara_x86.lib", out.join("yara_x86.lib")).unwrap();
+            println!("cargo:rustc-link-lib=yara/yara_x86");
         }
-        std::fs::create_dir(&out).unwrap();
-        std::fs::copy("pluginsdk/yara/yara_x86.lib", out.join("yara_x86.lib")).unwrap();
-        println!("cargo:rustc-link-lib=yara/yara_x86");
     }
 
     println!("cargo:rerun-if-changed=pluginsdk/bridgemain.h");

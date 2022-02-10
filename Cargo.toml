@@ -1,6 +1,6 @@
 [package]
 name = "dbg64_plugins_sdk_sys"
-version = "0.1.4"
+version = "0.1.5"
 edition = "2021"
 build="build.rs"
 license = "MIT/Apache-2.0"
@@ -13,8 +13,13 @@ description = "dbg64 plugins sdk sys"
 crate-type=["rlib"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[features]
+default=["x64"]
+x64=[]
+x86=[]
+
 [dependencies]
 
 [build-dependencies]
 bindgen = "0.59"
-
+cfg-if = "1"
