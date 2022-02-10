@@ -1,6 +1,6 @@
 [package]
 name = "dbg64_plugins_sdk_sys"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 build="build.rs"
 license = "MIT/Apache-2.0"

@@ -2,18 +2,10 @@ use std::env;
 use std::path::PathBuf;
 
 fn main() {
-
-
-
-
-
     let out_path = PathBuf::from(env::var("OUT_DIR").unwrap());
 
     std::fs::copy("pluginsdk/x64bridge.lib", out_path.join("x64bridge.lib")).unwrap();
     std::fs::copy("pluginsdk/x64dbg.lib", out_path.join("x64dbg.lib")).unwrap();
-
-    // println!("cargo:rustc-link-lib=./pluginsdk/x64bridge");
-    // println!("cargo:rustc-link-lib=./pluginsdk/x64dbg");
 
     println!("cargo:rustc-link-lib=x64bridge");
     println!("cargo:rustc-link-lib=x64dbg");
@@ -29,7 +21,6 @@ fn main() {
             out.join("capstone_x64.lib"),
         )
         .unwrap();
-        //println!("cargo:rustc-link-lib=pluginsdk/capstone/capstone_x64.lib");
         println!("cargo:rustc-link-lib=capstone/capstone_x64");
     }
 
@@ -44,7 +35,6 @@ fn main() {
             out.join("DeviceNameResolver_x64.lib"),
         )
         .unwrap();
-        //println!("cargo:rustc-link-lib=pluginsdk/DeviceNameResolver/DeviceNameResolver_x64");
         println!("cargo:rustc-link-lib=DeviceNameResolver/DeviceNameResolver_x64");
     }
 
@@ -59,7 +49,6 @@ fn main() {
             out.join("jansson_x64.lib"),
         )
         .unwrap();
-        //println!("cargo:rustc-link-lib=./pluginsdk/jansson/jansson_x64");
         println!("cargo:rustc-link-lib=jansson/jansson_x64");
     }
 
@@ -70,7 +59,6 @@ fn main() {
         }
         std::fs::create_dir(&out).unwrap();
         std::fs::copy("pluginsdk/lz4/lz4_x64.lib", out.join("lz4_x64.lib")).unwrap();
-        //println!("cargo:rustc-link-lib=./pluginsdk/lz4/lz4_x64");
         println!("cargo:rustc-link-lib=lz4/lz4_x64");
     }
 
@@ -85,7 +73,6 @@ fn main() {
             out.join("TitanEngine_x64.lib"),
         )
         .unwrap();
-        //println!("cargo:rustc-link-lib=./pluginsdk/TitanEngine/TitanEngine_x64");
         println!("cargo:rustc-link-lib=TitanEngine/TitanEngine_x64");
     }
 
@@ -100,7 +87,6 @@ fn main() {
             out.join("XEDParse_x64.lib"),
         )
         .unwrap();
-        //println!("cargo:rustc-link-lib=./pluginsdk/XEDParse/XEDParse_x64");
         println!("cargo:rustc-link-lib=XEDParse/XEDParse_x64");
     }
 
@@ -111,11 +97,8 @@ fn main() {
         }
         std::fs::create_dir(&out).unwrap();
         std::fs::copy("pluginsdk/yara/yara_x64.lib", out.join("yara_x64.lib")).unwrap();
-        //println!("cargo:rustc-link-lib=./pluginsdk/yara/yara_x64");
         println!("cargo:rustc-link-lib=yara/yara_x64");
     }
-
-
 
     println!("cargo:rerun-if-changed=pluginsdk/bridgemain.h");
     println!("cargo:rerun-if-changed=pluginsdk/_plugins.h");
@@ -160,7 +143,7 @@ fn main() {
         .derive_partialeq(false)
         .derive_ord(false)
         .derive_partialord(false)
-        .derive_default(false)
+        .derive_default(true)
         .derive_eq(false)
         // The input header we would like to generate
         // bindings for.
