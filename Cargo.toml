@@ -1,6 +1,6 @@
 [package]
 name = "dbg64_plugins_sdk_sys"
-version = "0.1.5"
+version = "0.1.6"
 edition = "2021"
 build="build.rs"
 license = "MIT/Apache-2.0"
@@ -8,6 +8,10 @@ readme = "README.md"
 repository = "https://github.com/luyikk/dbg64_plugins"
 documentation = "https://docs.rs/dbg64_plugins_sdk_sys"
 description = "dbg64 plugins sdk sys"
+
+[package.metadata.docs.rs]
+default-target = "x86_64-pc-windows-msvc"
+targets = ["aarch64-pc-windows-msvc", "i686-pc-windows-msvc", "x86_64-pc-windows-msvc"]
 
 [lib]
 crate-type=["rlib"]
