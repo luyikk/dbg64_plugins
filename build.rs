@@ -2,8 +2,6 @@ use std::env;
 use std::path::PathBuf;
 
 fn main() {
-    #[cfg(not(target_os = "windows"))]
-    panic!("only windows system build");
 
     let out_path = PathBuf::from(env::var("OUT_DIR").unwrap());
 
