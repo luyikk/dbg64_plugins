@@ -143,8 +143,9 @@ fn main() {
         .derive_partialeq(false)
         .derive_ord(false)
         .derive_partialord(false)
-        .derive_default(true)
+        .derive_default(false)
         .derive_eq(false)
+        .derive_debug(false)
         // The input header we would like to generate
         // bindings for.
         .header("pluginsdk/bridgemain.h")
