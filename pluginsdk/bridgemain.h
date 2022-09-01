@@ -130,6 +130,12 @@ BRIDGE_IMPEXP int BridgeGetDbgVersion();
 /// <returns>true if the process is elevated, false otherwise.</returns>
 BRIDGE_IMPEXP bool BridgeIsProcessElevated();
 
+/// <summary>
+/// Gets the NT build number from the operating system.
+/// </summary>
+/// <returns>NtBuildNumber</returns>
+BRIDGE_IMPEXP unsigned int BridgeGetNtBuildNumber();
+
 #ifdef __cplusplus
 }
 #endif
@@ -1089,6 +1095,7 @@ typedef enum
     GUI_DISASSEMBLE_AT,             // param1=(duint)va,            param2=(duint)cip
     GUI_SET_DEBUG_STATE,            // param1=(DBGSTATE)state,      param2=unused
     GUI_ADD_MSG_TO_LOG,             // param1=(const char*)msg,     param2=unused
+    GUI_ADD_MSG_TO_LOG_HTML,        // param1=(const char*)msg,     param2=unused
     GUI_CLEAR_LOG,                  // param1=unused,               param2=unused
     GUI_UPDATE_REGISTER_VIEW,       // param1=unused,               param2=unused
     GUI_UPDATE_DISASSEMBLY_VIEW,    // param1=unused,               param2=unused
@@ -1198,6 +1205,8 @@ typedef enum
     GUI_GET_CURRENT_GRAPH,          // param1=BridgeCFGraphList*,   param2=unused
     GUI_SHOW_REF,                   // param1=unused,               param2=unused
     GUI_SELECT_IN_SYMBOLS_TAB,      // param1=duint addr,           param2=unused
+    GUI_GOTO_TRACE,                 // param1=duint index,          param2=unused
+    GUI_SHOW_TRACE,                 // param1=unused,               param2=unused
 } GUIMSG;
 
 //GUI Typedefs
@@ -1265,6 +1274,7 @@ BRIDGE_IMPEXP void GuiDisasmAt(duint addr, duint cip);
 BRIDGE_IMPEXP void GuiSetDebugState(DBGSTATE state);
 BRIDGE_IMPEXP void GuiSetDebugStateFast(DBGSTATE state);
 BRIDGE_IMPEXP void GuiAddLogMessage(const char* msg);
+BRIDGE_IMPEXP void GuiAddLogMessageHtml(const char* msg);
 BRIDGE_IMPEXP void GuiLogClear();
 BRIDGE_IMPEXP void GuiUpdateAllViews();
 BRIDGE_IMPEXP void GuiUpdateRegisterView();
@@ -1380,6 +1390,8 @@ BRIDGE_IMPEXP void GuiExecuteOnGuiThreadEx(GUICALLBACKEX cbGuiThread, void* user
 BRIDGE_IMPEXP void GuiGetCurrentGraph(BridgeCFGraphList* graphList);
 BRIDGE_IMPEXP void GuiShowReferences();
 BRIDGE_IMPEXP void GuiSelectInSymbolsTab(duint addr);
+BRIDGE_IMPEXP void GuiGotoTrace(duint index);
+BRIDGE_IMPEXP void GuiShowTrace();
 
 #ifdef __cplusplus
 }

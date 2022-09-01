@@ -240,13 +240,13 @@ typedef enum
 {
     ValueTypeNumber,
     ValueTypeString,
-    ValueTypeAny
+    ValueTypeAny, // Cannot be used for values, only for argTypes (to accept any type)
 } ValueType;
 
 typedef struct
 {
-    const char* ptr;
-    bool isOwner;
+    const char* ptr; // Should be allocated with BridgeAlloc
+    bool isOwner; // When set to true BridgeFree will be called on ptr
 } StringValue;
 
 typedef struct
@@ -322,6 +322,7 @@ PLUG_IMPEXP bool _plugin_unregistercallback(int pluginHandle, CBTYPE cbType);
 PLUG_IMPEXP bool _plugin_registercommand(int pluginHandle, const char* command, CBPLUGINCOMMAND cbCommand, bool debugonly);
 PLUG_IMPEXP bool _plugin_unregistercommand(int pluginHandle, const char* command);
 PLUG_IMPEXP void _plugin_logprintf(const char* format, ...);
+PLUG_IMPEXP void _plugin_lograw_html(const char* text);
 PLUG_IMPEXP void _plugin_logputs(const char* text);
 PLUG_IMPEXP void _plugin_logprint(const char* text);
 PLUG_IMPEXP void _plugin_debugpause();
